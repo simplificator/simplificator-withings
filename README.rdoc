@@ -1,13 +1,15 @@
 = simplificator-withings
 
-Description goes here.
+This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api/
 
+== How To ==
+
+See sample.rb
 
 == Note on keys in hashes
 
 Keys to constructors (User, MeasurementGroup and NotificationDescription) and methods (User.measurement_groups)
 can be either of String or Symbol
-
 
 == Note on naming convention
 
@@ -31,4 +33,4 @@ An exception to this are the "id" and "publickey" parameters for User.new, they 
 
 == Copyright
 
-Copyright (c) 2010 pascalbetz. See LICENSE for details.
+Copyright (c) 2010 simplificator. See LICENSE for details.
