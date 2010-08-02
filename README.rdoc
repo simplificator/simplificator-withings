@@ -2,6 +2,12 @@
 
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api/
 
+
+== Installation ==
+
+gem install simplificator-withings
+
+
 == How To ==
 
 See sample.rb
