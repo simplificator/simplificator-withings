@@ -1,0 +1,34 @@
+= simplificator-withings
+
+Description goes here.
+
+
+== Note on keys in hashes
+
+Keys to constructors (User, MeasurementGroup and NotificationDescription) and methods (User.measurement_groups)
+can be either of String or Symbol
+
+
+== Note on naming convention
+
+The WBS API has parameter with shortened names (e.g. 'grpid') or names not following a consistent naming pattern. While this
+API implementation tries to stick as close to the API as possible it also tries to unify and simplify the parameter names.
+The constructors for User, MeasurementGroup and NotificationDescription accept the names provided by the API but convert the names then
+to a more "ruby" way.
+An exception to this are the "id" and "publickey" parameters for User.new, they are accepted as "user_id" and "public_key" as well.
+
+
+
+== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a
+  future version unintentionally.
+* Commit, do not mess with rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+
+== Copyright
+
+Copyright (c) 2010 pascalbetz. See LICENSE for details.
