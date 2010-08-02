@@ -1,14 +1,14 @@
 require 'rubygems'
-require 'lib/withings'
+require 'withings'
 
 # All classes are name-spaced
 include Withings
 
 # A user can be authenticated with email address and password
-user = User.by_email('<YOUR EMAIL ADDRESS>', '<YOUR PASSWORD>')
+user = User.authenticate('<YOUR EMAIL ADDRESS>', '<YOUR PASSWORD>')
 
 # Or you can fetch details if you have the user id and public key
-user = User.by_user_id('<YOUR USER ID>', '<YOUR PUBLIC KEY>')
+user = User.authenticate('<YOUR USER ID>', '<YOUR PUBLIC KEY>')
 
 # or if you already have user id and public key, you can create ir yourself
 user = User.new(:user_id => '<YOUR USER ID>', :public_key => '<YOUR PUBLIC_KEY>')
@@ -26,4 +26,4 @@ user.describe_notification('http://foo.bar.com')
 user.revoke_notification('http://foo.bar.com')
 
 # list measurement groups
-puts user.measurement_groups(:per_page => 10, :page => 1, :end_at => Time.now).join("\n")
+user.measurement_groups(:per_page => 10, :page => 1, :end_at => Time.now).join("\n")

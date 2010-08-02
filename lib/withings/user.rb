@@ -1,4 +1,13 @@
 class Withings::User
+
+  def self.authenticate(email_or_user_id, password_or_public_key)
+    if email_or_user_id.include?('@')
+      by_email(email_or_user_id, password_or_public_key)
+    else
+      by_user_id(email_or_user_id, password_or_public_key)
+    end
+  end
+
   # Authenticate by email and password
   def self.by_email(email, password)
     response = Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
