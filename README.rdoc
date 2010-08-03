@@ -5,8 +5,6 @@ This is a ruby implementation for the Withings API. Description of the API can b
 == Status
 The gem is still under development and the API might change a bit.
 
-User.info() does currently not work. We're looking into it.
-
 == Installation
 
 gem install simplificator-withings

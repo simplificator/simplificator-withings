@@ -62,7 +62,7 @@ class UsersTest < Test::Unit::TestCase
     setup do
       user_id = 'kongking'
       public_key = 'abcdef'
-      Connection.expects(:get_request).with('/account', :action => :getbyuserid, :userid => user_id, :publickey => public_key).
+      Connection.expects(:get_request).with('/user', :action => :getbyuserid, :userid => user_id, :publickey => public_key).
         returns({'users' => [{}]})
     end
     should 'authenticate with hashed password' do

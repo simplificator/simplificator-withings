@@ -9,8 +9,7 @@ class Withings::User
   end
 
   def self.info(user_id, public_key)
-    puts "getting: #{user_id} /#{public_key}"
-    response = Connection.get_request('/account', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
+    response = Connection.get_request('/user', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
     User.new(response['users'].first)
   end
 
