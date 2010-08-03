@@ -29,8 +29,6 @@ class Withings::User
     @birthdate = Time.at(params['birthdate']) if params['birthdate']
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
-
-    raise ArgumentError('user_id AND public_key need to be set') unless self.user_id && self.public_key
   end
 
   def subscribe_to_notification(callback_url, description)
