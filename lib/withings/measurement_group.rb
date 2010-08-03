@@ -14,7 +14,7 @@ class Withings::MeasurementGroup
   TYPE_FAT_MASS_WEIGHT = 8
 
   attr_reader :group_id, :attribution, :created_at, :category
-  attr_reader :weight, :height, :fat
+  attr_reader :weight, :height, :fat, :ratio, :fat_free
   def initialize(params)
     params = params.keys_as_string
     @group_id = params['grpid']
@@ -27,7 +27,8 @@ class Withings::MeasurementGroup
       when TYPE_WEIGHT then @weight = value
       when TYPE_SIZE then @height = value
       when TYPE_FAT_MASS_WEIGHT then @fat = value
-      when TYPE_FAT_RATIO, TYPE_FAT_FREE_MASS_WEIGHT
+      when TYPE_FAT_RATIO then @ratio = value
+      when TYPE_FAT_FREE_MASS_WEIGHT then @fat_free = value
       else raise "Unknown #{measure.inspect}"
       end
     end
@@ -40,17 +41,6 @@ class Withings::MeasurementGroup
   def target?
     self.category == CATEGORY_TARGET
   end
-
-  # while fat_ratio and fat_free_mass_weight is provided by the API as well i've seen responses where they were not included. Since
-  # they can be calculated as soon as weight and fat is provided we do it ourselves
-  def fat_ratio
-    (self.weight / self.fat) if self.weight && self.fat
-  end
-
-  def fat_free_weight
-    (self.weight - self.fat) if self.weight && self.fat
-  end
-
 
   def bmi
     if self.height && self.weight

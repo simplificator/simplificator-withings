@@ -1,31 +1,23 @@
 class Withings::User
+  attr_reader :short_name, :public_key, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender
 
-  def self.authenticate(email_or_user_id, password_or_public_key)
-    if email_or_user_id.include?('@')
-      by_email(email_or_user_id, password_or_public_key)
-    else
-      by_user_id(email_or_user_id, password_or_public_key)
-    end
-  end
-
-  # Authenticate by email and password
-  def self.by_email(email, password)
+  # Authenticate a user by email/password
+  #
+  def self.authenticate(email, password)
     response = Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
     User.new(response['users'].first)
   end
-  # Authenticate by user id and public key
-  def self.by_user_id(user_id, public_key)
+
+  def self.info(user_id, public_key)
     response = Connection.get_request('/account', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
     User.new(response['users'].first)
   end
 
 
-  attr_reader :short_name, :public_key, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender
-
-
   #
   # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and 'public_key'
   #
+
   def initialize(params)
     params = params.stringify_keys
     @short_name = params['shortname']
@@ -37,6 +29,8 @@ class Withings::User
     @birthdate = Time.at(params['birthdate']) if params['birthdate']
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
+
+    raise ArgumentError('user_id AND public_key need to be set') unless self.user_id && self.public_key
   end
 
   def subscribe_to_notification(callback_url, description)

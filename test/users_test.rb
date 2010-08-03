@@ -54,11 +54,11 @@ class UsersTest < Test::Unit::TestCase
         returns({'users' => [{}]})
     end
     should 'authenticate with hashed password' do
-      User.by_email('king@kong.com', 'kongking')
+      User.authenticate('king@kong.com', 'kongking')
     end
   end
 
-  context 'authentication by user_id' do
+  context 'info by user_id' do
     setup do
       user_id = 'kongking'
       public_key = 'abcdef'
@@ -66,7 +66,7 @@ class UsersTest < Test::Unit::TestCase
         returns({'users' => [{}]})
     end
     should 'authenticate with hashed password' do
-      User.by_user_id('kongking', 'abcdef')
+      User.info('kongking', 'abcdef')
     end
   end
 
