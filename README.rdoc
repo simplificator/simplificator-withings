@@ -2,9 +2,6 @@
 
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api
 
-== Status
-The gem is still under development and the API might change a bit.
-
 == Installation
 
 gem install simplificator-withings
@@ -19,8 +16,14 @@ user_id and public_key attributes populated and you can store them for further u
 As soon as you have user_id/public_key available you can either use User.info or User.new to create a User instance. While User.info
 will make an API call to populate the attributes, User.new just requires user_id/public_key.
 
+== TODO
+
+* Need to test parameter generation for get measurement
+* Integration Test? But i don't want to share my credentials... Perhaps with a test account on withings?
+
 == Remarks
 
+* The gem is still under development and the API might change a bit.
 * Authentication by user_id/public_key is only supported when the user has activated sharing. He can do this either in the sharing overlay on my.withings.com or through the api (user.share = true) after authentication by email/password
 * As soon as the user sets sharing to false (user.share = false) the public_key is reset and upon next activation of sharing (user.share = true) a new public_key is assigned.
 * All the methods making remote calls can throw Withing::ApiError if something goes wrong (wrong public_key, missing parameters, ...). You can find more details on the error by looking at the status code in the error.
