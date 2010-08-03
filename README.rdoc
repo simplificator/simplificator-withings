@@ -21,12 +21,9 @@ will make an API call to populate the attributes, User.new just requires user_id
 
 == Remarks
 
-* Authentication by user_id/public_key is only supported when the user has activated sharing. He can do this either in the sharing
- overlay on my.withings.com or through the api (user.share = true) after authentication by email/password
-* As soon as the user sets sharing to false (user.share = false) the public_key is reset and upon next activation of sharing (user.share = true)
- a new public_key is assigned.
-* All the methods making remote calls can throw Withing::ApiError if something goes wrong (wrong public_key, missing parameters, ...). You
- can find more details on the error by looking at the status code in the error.
+* Authentication by user_id/public_key is only supported when the user has activated sharing. He can do this either in the sharing overlay on my.withings.com or through the api (user.share = true) after authentication by email/password
+* As soon as the user sets sharing to false (user.share = false) the public_key is reset and upon next activation of sharing (user.share = true) a new public_key is assigned.
+* All the methods making remote calls can throw Withing::ApiError if something goes wrong (wrong public_key, missing parameters, ...). You can find more details on the error by looking at the status code in the error.
 
 == How To
 
