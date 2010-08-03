@@ -2,19 +2,14 @@
 
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api/
 
-== Status ==
+== Status
 The gem is still under development and the API might change a bit.
 
-== Installation ==
+== Installation
 
 gem install simplificator-withings
 
-== Dependencies ==
-
-HTTParty is used for making the HTTP requests and Shoulda and Mocha are used for testing.
-Thanks for these Gems.
-
-== Authentication ==
+== Authentication
 
 The WBS API provides a way to login by user_id and public_key. You can either ask your users to enter the user_id/public_key manually
 (they can be found in the sharing overlay on my.withings.com) or ask them for email/password once and then use those credentials
@@ -24,7 +19,7 @@ user_id and public_key attributes populated and you can store them for further u
 As soon as you have user_id/public_key available you can either use User.info or User.new to create a User instance. While User.info
 will make an API call to populate the attributes, User.new just requires user_id/public_key.
 
-=== Remarks ===
+== Remarks
 
  * Authentication by user_id/public_key is only supported when the user has activated sharing. He can do this either in the sharing
  overlay on my.withings.com or through the api (user.share = true) after authentication by email/password
@@ -33,7 +28,7 @@ will make an API call to populate the attributes, User.new just requires user_id
  * All the methods making remote calls can throw Withing::ApiError if something goes wrong (wrong public_key, missing parameters, ...). You
  can find more details on the error by looking at the status code in the error.
 
-== How To ==
+== How To
 
 Require the API implementation
 
@@ -96,6 +91,12 @@ An exception to this are the "id" and "publickey" parameters for User.new, they 
 * Commit, do not mess with rakefile, version, or history.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
+
+== Dependencies
+
+HTTParty is used for making the HTTP requests and Shoulda and Mocha are used for testing.
+Thanks for these Gems.
+
 
 == Copyright
 
