@@ -2,20 +2,82 @@
 
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api/
 
+== Status ==
+The gem is still under development and the API might change a bit.
 
 == Installation ==
 
 gem install simplificator-withings
 
+== Dependencies ==
+
+HTTParty is used for making the HTTP requests and Shoulda and Mocha are used for testing.
+Thanks for these Gems.
+
+== Authentication ==
+
+The WBS API provides a way to login by user_id and public_key. You can either ask your users to enter the user_id/public_key manually
+(they can be found in the sharing overlay on my.withings.com) or ask them for email/password once and then use those credentials
+to authenticate through the API (User.authenticate(email, password)). The User instance returned will have the
+user_id and public_key attributes populated and you can store them for further use.
+
+As soon as you have user_id/public_key available you can either use User.info or User.new to create a User instance. While User.info
+will make an API call to populate the attributes, User.new just requires user_id/public_key.
+
+=== Remarks ===
+
+ * Authentication by user_id/public_key is only supported when the user has activated sharing. He can do this either in the sharing
+ overlay on my.withings.com or through the api (user.share = true) after authentication by email/password
+ * As soon as the user sets sharing to false (user.share = false) the public_key is reset and upon next activation of sharing (user.share = true)
+ a new public_key is assigned.
+ * All the methods making remote calls can throw Withing::ApiError if something goes wrong (wrong public_key, missing parameters, ...). You
+ can find more details on the error by looking at the status code in the error.
 
 == How To ==
 
-See sample.rb
+Require the API implementation
+
+  require 'rubygems'
+  require 'withings'
+
+All classes are name-spaced, if your other code allows you can include Withings
+
+  include Withings
+
+A user can be authenticated with email address and password
+
+  user = User.authenticate('<YOUR EMAIL ADDRESS>', '<YOUR PASSWORD>')
+
+Or you can fetch details if you have the user id and public key
+
+  user = User.info('<YOUR USER ID>', '<YOUR PUBLIC KEY>')
+
+If you already have user id and public key and you do not need further information on the user
+
+  user = User.new(:user_id => '<YOUR USER ID>', :public_key => '<YOUR PUBLIC_KEY>')
+
+enable/disable sharing, disabling it will reset the public key
+
+  user.share=true
+
+You can handle subscriptions through the API
+
+  user.subscribe_notification('http://foo.bar.com', 'test subscription')
+  user.describe_notification('http://foo.bar.com')
+  user.revoke_notification('http://foo.bar.com')
+
+And finally you can get measurements, after all it's a scale
+
+  user.measurement_groups(:per_page => 10, :page => 1, :end_at => Time.now)
+  user.measurement_groups(:category => MeasurementGroup::CATEGORY_TARGET)
+  user.measurement_groups(:last_updated_at => Time.at(12345))
+  user.measurement_groups(:start_at => Time.at(12345), :end_at => Time.at(67890))
+  user.measurement_groups(:measurement_type => MeasurementGroup::TYPE_FAT)
 
 == Note on keys in hashes
 
 Keys to constructors (User, MeasurementGroup and NotificationDescription) and methods (User.measurement_groups)
-can be either of String or Symbol
+can be either String or Symbol
 
 == Note on naming convention
 
@@ -24,8 +86,6 @@ API implementation tries to stick as close to the API as possible it also tries 
 The constructors for User, MeasurementGroup and NotificationDescription accept the names provided by the API but convert the names then
 to a more "ruby" way.
 An exception to this are the "id" and "publickey" parameters for User.new, they are accepted as "user_id" and "public_key" as well.
-
-
 
 == Note on Patches/Pull Requests
 
