@@ -70,6 +70,55 @@ class UsersTest < Test::Unit::TestCase
     end
   end
 
+  context 'measurement_groups' do
+    setup do
+      @user = User.new(:user_id => 'lala', :public_key => 'lili')
+      @returns = {'measuregrps' => []}
+    end
+    should 'not require parameters' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0).returns(@returns)
+      @user.measurement_groups
+    end
+    should 'set page and current_page A' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 10, :offset => 10).returns(@returns)
+      @user.measurement_groups(:page => 2, :per_page => 10)
+    end
+    should 'set page and current_page B' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 5, :offset => 15).returns(@returns)
+      @user.measurement_groups(:page => 4, :per_page => 5)
+    end
+    should 'set page and current_page C' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 23, :offset => 207).returns(@returns)
+      @user.measurement_groups(:page => 10, :per_page => 23)
+    end
+
+    should 'limit the category' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0, :category => 1).returns(@returns)
+      @user.measurement_groups(:page => 1, :per_page => 100, :category => 1)
+    end
+
+    should 'limit the measurement_type' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0, :meastype => 1).returns(@returns)
+      @user.measurement_groups(:page => 1, :per_page => 100, :measurement_type => 1)
+    end
+
+    should 'limit start at' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0, :startdate => 1234).returns(@returns)
+      @user.measurement_groups(:page => 1, :start_at => Time.at(1234))
+    end
+
+    should 'limit end at' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0, :enddate => 1234).returns(@returns)
+      @user.measurement_groups(:page => 1, :end_at => Time.at(1234))
+    end
+
+    should 'limit last updated at' do
+      Connection.any_instance.expects(:get_request).with('/measure', :action => :getmeas, :limit => 100, :offset => 0, :lastupdate => 1234).returns(@returns)
+      @user.measurement_groups(:page => 1, :last_updated_at => Time.at(1234))
+    end
+
+  end
+
 
   context 'constructor' do
     should 'assign short_name' do

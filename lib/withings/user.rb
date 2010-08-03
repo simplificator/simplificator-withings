@@ -46,25 +46,26 @@ class Withings::User
 
 
   # list measurement groups
-  # - :per_page
-  # - :page
-  # - :category
-  # - :measurement_type
-  # - :start_at
-  # - :end_at
-  # - :last_udpated_at
+  # The limit and offset parameters are converted to will_paginate style parameters (:per_page, :page)
+  # - :per_page           (default: 100)
+  # - :page               (default: 1)
+  # - :category           (default: empty)
+  # - :measurement_type   (default: empty)
+  # - :start_at           (default: empty)
+  # - :end_at             (default: empty)
+  # - :last_udpated_at    (default: empty)
   #
-  # Parameters are described in WBS api, names are "rubyfied" (startdate -> start_at and so on)
+  # Parameters are described in WBS api
   def measurement_groups(params = {})
     params = params.stringify_keys
     options = {:limit => 100, :offset => 0}
-    options[:meastype] = params[:measurement_type] if params.has_key?(:measurement_type)
-    options[:category] = params[:category] if params.has_key?(:category)
-    options[:limit] =  params[:per_page] if params.has_key?(:per_page)
-    options[:offset] = ((params[:page] || 1) - 1) * options[:limit]
-    options[:startdate] = params[:start_at].to_i if params[:start_at]
-    options[:enddate] = params[:end_at].to_i if params[:end_at]
-    options[:lastupdate] = params[:last_update].to_i if params[:last_updated_at]
+    options[:limit] =  params['per_page'] if params.has_key?('per_page')
+    options[:offset] = ((params['page'] || 1) - 1) * options[:limit]
+    options[:category] = params['category'] if params.has_key?('category')
+    options[:meastype] = params['measurement_type'] if params.has_key?('measurement_type')
+    options[:startdate] = params['start_at'].to_i if params['start_at']
+    options[:enddate] = params['end_at'].to_i if params['end_at']
+    options[:lastupdate] = params['last_updated_at'].to_i if params['last_updated_at']
 
     response = connection.get_request('/measure', options.merge(:action => :getmeas))
     response['measuregrps'].map do |group|
