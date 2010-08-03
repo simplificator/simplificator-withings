@@ -9,6 +9,7 @@ class Withings::User
   end
 
   def self.info(user_id, public_key)
+    puts "getting: #{user_id} /#{public_key}"
     response = Connection.get_request('/account', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
     User.new(response['users'].first)
   end
@@ -31,7 +32,7 @@ class Withings::User
     @fat_method = params['fatmethod']
   end
 
-  def subscribe_to_notification(callback_url, description)
+  def subscribe_notification(callback_url, description)
     connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description)
   end
 

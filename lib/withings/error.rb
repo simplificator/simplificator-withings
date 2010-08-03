@@ -7,13 +7,12 @@ class Withings::ApiError < StandardError
     293	  => "The callback URL is either absent or incorrect",
     294	  => "No such subscription could be deleted",
     304	  => "The comment is either absent or incorrect",
-    2554  => "Invalid Parameters . Not sure about this error message, it's not documented",
     2555	=> "An unknown error occurred",
   }
 
   attr_reader :status
   def initialize(status)
-    super(STATUS_CODES[status] || 'Undefined status code')
+    super(STATUS_CODES[status] || "Undefined status code. We do not have any description about the code #{status}. If you know more, then please let me know.")
     @status = status
   end
 

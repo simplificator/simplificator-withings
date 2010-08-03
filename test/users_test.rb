@@ -14,7 +14,7 @@ class UsersTest < Test::Unit::TestCase
 
     should 'subscribe to notification' do
       Withings::Connection.any_instance.expects(:get_request).with('/notify', :action => :subscribe, :callbackurl => 'http://schni.com', :comment => 'descri')
-      @user.subscribe_to_notification('http://schni.com', 'descri')
+      @user.subscribe_notification('http://schni.com', 'descri')
     end
 
     should 'revoke notification' do

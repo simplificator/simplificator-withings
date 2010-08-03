@@ -16,7 +16,7 @@ class Withings::MeasurementGroup
   attr_reader :group_id, :attribution, :created_at, :category
   attr_reader :weight, :height, :fat, :ratio, :fat_free
   def initialize(params)
-    params = params.keys_as_string
+    params = params.stringify_keys
     @group_id = params['grpid']
     @attribution = params['attrib']
     @created_at = Time.at(params['date'])
@@ -49,7 +49,7 @@ class Withings::MeasurementGroup
   end
 
   def to_s
-    "[ Weight: #{self.weight}, Fat: #{self.fat}, Height: #{self.height}, BMI: #{self.bmi}, Ratio: #{self.fat_ratio}, Free: #{self.fat_free_weight}, ID: #{self.group_id}]"
+    "[ Weight: #{self.weight}, Fat: #{self.fat}, Height: #{self.height}, BMI: #{self.bmi}, Ratio: #{self.ratio}, Free: #{self.fat_free}, ID: #{self.group_id}]"
   end
 
   def inspect
