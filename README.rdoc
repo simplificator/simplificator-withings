@@ -18,7 +18,6 @@ will make an API call to populate the attributes, User.new just requires user_id
 
 == TODO
 
-* Need to test parameter generation for get measurement
 * Integration Test? But i don't want to share my credentials... Perhaps with a test account on withings?
 
 == Remarks
