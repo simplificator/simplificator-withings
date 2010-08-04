@@ -1,31 +1,33 @@
+# A convenience class for making get requests to WBS API.
+# It verifies the response and raises ApiError if a call failed.
 class Withings::Connection
   include HTTParty
   base_uri 'wbsapi.withings.net'
   format :json
 
-  attr_reader :user
   def initialize(user)
     @user = user
   end
 
   def self.get_request(path, params)
     response = self.get(path, :query => params)
-    verify_response!(response)
+    verify_response!(response, path, params)
   end
 
+  # Merges the params with public_key and user_id for authentication.
   def get_request(path, params)
-    response = self.class.get(path, :query => params.merge(:publickey => user.public_key, :userid => user.user_id))
-    self.class.verify_response!(response)
+    params =  params.merge(:publickey => @user.public_key, :userid => @user.user_id)
+    response = self.class.get(path, :query => params)
+    self.class.verify_response!(response, path, params)
   end
 
   protected
-  def self.verify_response!(response)
+  # Verifies the status code in the JSON response and returns either the body element or raises ApiError
+  def self.verify_response!(response, path, params)
     if response['status'] == 0
       response['body'] || response['status']
     else
-      raise ApiError.new(response['status'])
+      raise ApiError.new(response['status'], path, params)
     end
-
   end
-
 end
