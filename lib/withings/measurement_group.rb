@@ -14,7 +14,7 @@ class Withings::MeasurementGroup
   TYPE_FAT_MASS_WEIGHT = 8
 
   attr_reader :group_id, :attribution, :created_at, :category
-  attr_reader :weight, :height, :fat, :ratio, :fat_free
+  attr_reader :weight, :size, :fat, :ratio, :fat_free
   def initialize(params)
     params = params.stringify_keys
     @group_id = params['grpid']
@@ -25,7 +25,7 @@ class Withings::MeasurementGroup
       value = (measure['value'] * 10 ** measure['unit']).to_f
       case measure['type']
       when TYPE_WEIGHT then @weight = value
-      when TYPE_SIZE then @height = value
+      when TYPE_SIZE then @size = value
       when TYPE_FAT_MASS_WEIGHT then @fat = value
       when TYPE_FAT_RATIO then @ratio = value
       when TYPE_FAT_FREE_MASS_WEIGHT then @fat_free = value
@@ -42,14 +42,8 @@ class Withings::MeasurementGroup
     self.category == CATEGORY_TARGET
   end
 
-  def bmi
-    if self.height && self.weight
-      self.weight / (self.height ** 2)
-    end
-  end
-
   def to_s
-    "[ Weight: #{self.weight}, Fat: #{self.fat}, Height: #{self.height}, BMI: #{self.bmi}, Ratio: #{self.ratio}, Free: #{self.fat_free}, ID: #{self.group_id}]"
+    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, ID: #{self.group_id}]"
   end
 
   def inspect
