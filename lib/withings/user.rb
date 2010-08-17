@@ -4,13 +4,13 @@ class Withings::User
   # Authenticate a user by email/password
   #
   def self.authenticate(email, password)
-    response = Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
-    User.new(response['users'].first)
+    response = Withings::Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
+    Withings::User.new(response['users'].first)
   end
 
   def self.info(user_id, public_key)
-    response = Connection.get_request('/user', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
-    User.new(response['users'].first)
+    response = Withings::Connection.get_request('/user', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
+    Withings::User.new(response['users'].first)
   end
 
 
@@ -41,7 +41,7 @@ class Withings::User
 
   def describe_notification(callback_url)
     response = connection.get_request('/notify', :action => :get, :callbackurl => callback_url)
-    NotificationDescription.new(response.merge(:callbackurl => callback_url))
+    Withings::NotificationDescription.new(response.merge(:callbackurl => callback_url))
   end
 
 
@@ -69,7 +69,7 @@ class Withings::User
 
     response = connection.get_request('/measure', options.merge(:action => :getmeas))
     response['measuregrps'].map do |group|
-      MeasurementGroup.new(group)
+      Withings::MeasurementGroup.new(group)
     end
   end
 
@@ -92,7 +92,7 @@ class Withings::User
   protected
 
   def connection
-    @connection ||= Connection.new(self)
+    @connection ||= Withings::Connection.new(self)
   end
 
   def self.auth_hash(email, password)
@@ -101,7 +101,7 @@ class Withings::User
   end
 
   def self.once()
-    Connection.get_request('/once', :action => :get)['once']
+    Withings::Connection.get_request('/once', :action => :get)['once']
   end
 
   # convert from boolean (@share) to 1/0 as required by the API
