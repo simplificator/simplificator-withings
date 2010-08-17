@@ -18,7 +18,21 @@ will make an API call to populate the attributes, User.new just requires user_id
 
 == TODO
 
-* Integration Test? But i don't want to share my credentials... Perhaps with a test account on withings?
+* Integration Test? But i don't want to share my credentials... Perhaps with a test account on withings? Solution from Withings support:
+  Hi,
+
+  The easiest is that you just create a regular account
+  (http://start.withings.com), associate it with one scale, then create a user
+  (like any regular customer).
+
+  Once this is done, the account is activated. You may then go to My
+  account/My scale and dissociate the scale, the account will stay opened.
+  That account may be used by who ever you think it should for test purposes
+  and will not be associated to a specific scale.
+
+  Thanks for your enquiry !
+
+  fred
 
 == Remarks
 
