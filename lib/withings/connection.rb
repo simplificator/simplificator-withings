@@ -27,7 +27,7 @@ class Withings::Connection
     if response['status'] == 0
       response['body'] || response['status']
     else
-      raise ApiError.new(response['status'], path, params)
+      raise Withings::ApiError.new(response['status'], path, params)
     end
   end
 end
