@@ -2,7 +2,7 @@ class Withings::ApiError < StandardError
   UNKNOWN_STATUS_CODE = lambda() {|status, path, params| "Unknown status code '#{status}'"}
   STATUS_CODES = {
     100	  => lambda() {|status, path, params| "The hash '#{params[:hash]}' does not match the email '#{params[:email]}'"},
-    247	  => lambda() {|status, path, params| "The '#{params[:userid]}' is invalid"},
+    247	  => lambda() {|status, path, params| "The userid '#{params[:userid]}' is invalid"},
     250	  => lambda() {|status, path, params| "The userid '#{params[:userid]}' and publickey '#{params[:publickey]}' do not match, or the user does not share its data"},
     264	  => lambda() {|status, path, params| "The email address '#{params[:email]}' is either unknown or invalid"},
     286   => lambda() {|status, path, params| "No subscription for '#{params[:callbackurl]}' was found" },
