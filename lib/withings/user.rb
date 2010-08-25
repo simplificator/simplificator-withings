@@ -10,7 +10,7 @@ class Withings::User
 
   def self.info(user_id, public_key)
     response = Withings::Connection.get_request('/user', :action => :getbyuserid, :userid => user_id, :publickey => public_key)
-    Withings::User.new(response['users'].first)
+    Withings::User.new(response['users'].first.merge({'public_key' => public_key}))
   end
 
 
