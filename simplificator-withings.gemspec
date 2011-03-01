@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{simplificator-withings}
-  s.version = "0.2.8"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["pascalbetz"]
-  s.date = %q{2010-08-17}
+  s.date = %q{2011-03-01}
   s.description = %q{A withings API implementation in ruby. Created for the evita project at evita.ch}
   s.email = %q{info@simplificator.com}
   s.extra_rdoc_files = [
