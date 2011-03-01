@@ -39,9 +39,9 @@ will make an API call to populate the attributes, User.new just requires user_id
 * The gem is still under development and the API might change a bit.
 * Authentication by user_id/public_key is only supported when the user has activated sharing.
   He can do this either in the sharing overlay on my.withings.com or
-  through the api (user.share = true) after authentication by email/password
+  through the api (user.share <LIST OF DEVICES>) after authentication by email/password
 * As soon as the user sets sharing to false (user.share = false) the public_key is reset
-  and upon next activation of sharing (user.share = true) a new public_key is assigned.
+  and upon next activation of sharing a new public_key is assigned.
 * All the methods making remote calls can throw Withing::ApiError if something goes wrong
   (wrong public_key, missing parameters, ...).
   You can find more details on the error by looking at the status code in the error.
@@ -65,14 +65,15 @@ If you already have user id and public key and you do not need further informati
   user = User.new(:user_id => '<YOUR USER ID>', :public_key => '<YOUR PUBLIC_KEY>')
 
 enable/disable sharing, disabling it will reset the public key
-  user.share=true
+  user.share(Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR)
+  user.share(0)
 
 You can handle subscriptions through the API
   user.subscribe_notification('http://foo.bar.com', 'test subscription')
   user.describe_notification('http://foo.bar.com')
   user.revoke_notification('http://foo.bar.com')
 
-And finally you can get measurements, after all it's a scale
+And finally you can get measurements, after all this is what it's for
   user.measurement_groups(:per_page => 10, :page => 1, :end_at => Time.now)
   user.measurement_groups(:category => MeasurementGroup::CATEGORY_TARGET)
   user.measurement_groups(:last_updated_at => Time.at(12345))

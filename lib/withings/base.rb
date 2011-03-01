@@ -1,4 +1,6 @@
 module Withings
+  SCALE = 1
+  BLOOD_PRESSURE_MONITOR = 4
 end
 
 # Copied over from ActiveSupport

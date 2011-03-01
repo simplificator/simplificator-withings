@@ -17,7 +17,6 @@ class Withings::User
   #
   # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and 'public_key'
   #
-
   def initialize(params)
     params = params.stringify_keys
     @short_name = params['shortname']
@@ -25,7 +24,7 @@ class Withings::User
     @last_name = params['lastname']
     @public_key = params['publickey']               || params['public_key']
     @user_id = params['id']                         || params['user_id']
-    @share = params['ispublic'] == 1 ? true : false
+    @share = params['ispublic']
     @birthdate = Time.at(params['birthdate']) if params['birthdate']
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
@@ -73,15 +72,15 @@ class Withings::User
     end
   end
 
-  # enable or disable sharing
-  def share=(value)
-    @share = value
-    connection.get_request('/user', :action => :update, :ispublic => is_public?)
+  def share(*devices)
+    devices = [Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR] if Array(devices).empty?
+    @share = devices.inject('|'.to_sym)
+    connection.get_request('/user', :action => :update, :ispublic => @share)
   end
 
-  # sharing enabled?
-  def share?
-    @share
+  # sharing enabled for a device?
+  def share?(device = Withings::DEVICE_SCALE | Withings::DEVICE_BLOOD_PRESSURE_MONITOR)
+    @share & device
   end
 
   def to_s
@@ -102,11 +101,6 @@ class Withings::User
 
   def self.once()
     Withings::Connection.get_request('/once', :action => :get)['once']
-  end
-
-  # convert from boolean (@share) to 1/0 as required by the API
-  def is_public?
-    @share ? 1 : 0
   end
 
 end
