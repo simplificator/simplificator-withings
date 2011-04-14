@@ -16,6 +16,9 @@ class Withings::MeasurementGroup
   TYPE_SYSTOLIC_BLOOD_PRESSURE = 10   # mmHg (max, upper)
   TYPE_HEART_PULSE = 11               # bpm
 
+  BLOOD_PRESSURE_MONITOR_TYPES = [TYPE_DIASTOLIC_BLOOD_PRESSURE, TYPE_SYSTOLIC_BLOOD_PRESSURE, TYPE_HEART_PULSE]
+  SCALE_TYPES = [TYPE_WEIGHT, TYPE_SIZE, TYPE_FAT_FREE_MASS_WEIGHT, TYPE_FAT_RATIO, TYPE_FAT_MASS_WEIGHT]
+
   attr_reader :group_id, :attribution, :created_at, :category
   attr_reader :weight, :size, :fat, :ratio, :fat_free, :diastolic_blood_pressure, :systolic_blood_pressure, :heart_pulse
   def initialize(params)
