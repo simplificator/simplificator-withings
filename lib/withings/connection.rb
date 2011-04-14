@@ -2,6 +2,12 @@
 # It verifies the response and raises ApiError if a call failed.
 class Withings::Connection
   include HTTParty
+  if ENV.has_key?('http_proxy')
+    uri = URI.parse(ENV['http_proxy'])
+    addr = "#{uri.scheme}://#{uri.host}"
+    http_proxy addr, uri.port
+  end
+
   base_uri 'wbsapi.withings.net'
   format :json
 
