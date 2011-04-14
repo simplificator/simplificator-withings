@@ -79,12 +79,12 @@ class Withings::User
   end
 
   # sharing enabled for a device?
-  def share?(device = Withings::DEVICE_SCALE | Withings::DEVICE_BLOOD_PRESSURE_MONITOR)
+  def share?(device = Withings::SCALE | Withings::BLOOD_PRESSURE_MONITOR)
     @share & device
   end
 
   def to_s
-    "[User #{short_name} / #{:user_id} / #{sharing?}]"
+    "[User #{short_name} / #{:user_id} / #{share?}]"
   end
 
 
