@@ -4,8 +4,7 @@ class Withings::Connection
   include HTTParty
   if ENV.has_key?('http_proxy')
     uri = URI.parse(ENV['http_proxy'])
-    addr = "#{uri.scheme}://#{uri.host}"
-    http_proxy addr, uri.port
+    http_proxy uri.host, uri.port
   end
 
   base_uri 'wbsapi.withings.net'
