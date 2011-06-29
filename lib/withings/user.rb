@@ -1,9 +1,25 @@
 class Withings::User
   attr_reader :short_name, :public_key, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender
 
+
+  # Listing the users for this account
+  # 
+  def self.userlist(email, password)
+    response = Withings::Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
+    response['users'].map do |item|
+      Withings::User.new(item)
+    end
+  end
+  
+  
   # Authenticate a user by email/password
   #
   def self.authenticate(email, password)
+    $stderr.puts <<-EOS
+      User.authenticate(email, pwd) has been deprecated in favour of User.userlist(email, pwd) as there is no description or guarantee 
+      about the order the users are returned.
+      If you need the same behaviour as before: User.userlist(email, pwd).first
+    EOS
     response = Withings::Connection.get_request('/account', :action => :getuserslist, :email => email, :hash => auth_hash(email, password))
     Withings::User.new(response['users'].first)
   end
@@ -53,7 +69,7 @@ class Withings::User
   # - :start_at           (default: empty)
   # - :end_at             (default: empty)
   # - :last_udpated_at    (default: empty)
-  #
+  # - :device             (default: empty)
   # Parameters are described in WBS api
   def measurement_groups(params = {})
     params = params.stringify_keys
@@ -65,7 +81,7 @@ class Withings::User
     options[:startdate] = params['start_at'].to_i if params['start_at']
     options[:enddate] = params['end_at'].to_i if params['end_at']
     options[:lastupdate] = params['last_updated_at'].to_i if params['last_updated_at']
-
+    options[:devtype] = params['device'] if params['device']
     response = connection.get_request('/measure', options.merge(:action => :getmeas))
     response['measuregrps'].map do |group|
       Withings::MeasurementGroup.new(group)
@@ -86,7 +102,7 @@ class Withings::User
   def to_s
     "[User #{short_name} / #{:user_id} / #{share?}]"
   end
-
+  
 
   protected
 

@@ -19,13 +19,13 @@ class Withings::MeasurementGroup
   BLOOD_PRESSURE_MONITOR_TYPES = [TYPE_DIASTOLIC_BLOOD_PRESSURE, TYPE_SYSTOLIC_BLOOD_PRESSURE, TYPE_HEART_PULSE]
   SCALE_TYPES = [TYPE_WEIGHT, TYPE_SIZE, TYPE_FAT_FREE_MASS_WEIGHT, TYPE_FAT_RATIO, TYPE_FAT_MASS_WEIGHT]
 
-  attr_reader :group_id, :attribution, :created_at, :category
+  attr_reader :group_id, :attribution, :taken_at, :category
   attr_reader :weight, :size, :fat, :ratio, :fat_free, :diastolic_blood_pressure, :systolic_blood_pressure, :heart_pulse
   def initialize(params)
     params = params.stringify_keys
     @group_id = params['grpid']
     @attribution = params['attrib']
-    @created_at = Time.at(params['date'])
+    @taken_at = Time.at(params['date'])
     @category = params['category']
     params['measures'].each do |measure|
       value = (measure['value'] * 10 ** measure['unit']).to_f
@@ -43,6 +43,10 @@ class Withings::MeasurementGroup
     end
   end
 
+  def created_at
+    $stderr.puts "created_at has been deprecated in favour of taken_at. Please updated your code."
+  end
+
   def measure?
     self.category == CATEGORY_MEASURE
   end
@@ -52,7 +56,7 @@ class Withings::MeasurementGroup
   end
 
   def to_s
-    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, Blood Pressure: #{self.diastolic_blood_pressure}/#{self.systolic_blood_pressure} @ #{self.heart_pulse}, ID: #{self.group_id} (created at: #{self.created_at.strftime("%d.%m.%Y")})]"
+    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, Blood Pressure: #{self.diastolic_blood_pressure}/#{self.systolic_blood_pressure} @ #{self.heart_pulse}, ID: #{self.group_id} (created at: #{self.taken_at.strftime("%d.%m.%Y")})]"
   end
 
   def inspect
