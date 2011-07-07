@@ -47,7 +47,7 @@ class Withings::User
   end
 
   def subscribe_notification(callback_url, description)
-    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description)
+    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => (Withings::BLOOD_PRESSURE_MONITOR | Withings::SCALE))
   end
 
   def revoke_notification(callback_url)
