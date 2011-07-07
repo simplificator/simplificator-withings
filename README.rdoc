@@ -91,8 +91,11 @@ enable/disable sharing, disabling it will reset the public key
   user.share(Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR)
   user.share(0)
 
-You can handle subscriptions through the API
+You can handle subscriptions through the API (all devices currently known => Scale + Blood Pressure Monitor)
   user.subscribe_notification('http://foo.bar.com', 'test subscription')
+Specify what devices you are interested  
+  user.subscribe_notification('http://foo.bar.com', 'test subscription', Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR)
+  
   user.describe_notification('http://foo.bar.com')
   user.revoke_notification('http://foo.bar.com')
 

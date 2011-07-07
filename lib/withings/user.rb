@@ -45,9 +45,12 @@ class Withings::User
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
   end
-
-  def subscribe_notification(callback_url, description)
-    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => (Withings::BLOOD_PRESSURE_MONITOR | Withings::SCALE))
+  
+  
+  def subscribe_notification(callback_url, description, *devices)
+    devices = [Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR] if Array(devices).empty?
+    devices = devices.inject('|'.to_sym)
+    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => devices)
   end
 
   def revoke_notification(callback_url)
