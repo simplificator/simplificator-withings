@@ -1,35 +1,25 @@
 class Withings::User
-  attr_reader :short_name, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender
+  attr_reader :short_name, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender, :oauth_token, :oauth_token_secret
 
-
-  # Listing the users for this account
-  # 
-  def self.userlist(email, password)
-    response = Withings::Connection.get_request('/account', :action => :getuserslist, :email => email)
-    response['users'].map do |item|
-      Withings::User.new(item)
-    end
-  end
-
-  def self.info(user_id)
-    response = Withings::Connection.get_request('/user', :action => :getbyuserid, :userid => user_id)
-    Withings::User.new(response['users'].first.merge({'public_key' => public_key}))
+  def self.authenticate(user_id, oauth_token, oauth_token_secret)
+    response = Withings::Connection.get_request('/user', oauth_token, oauth_token_secret, :action => :getbyuserid, :userid => user_id)
+    user_data = response['users'].detect { |item| item['id'] == user_id }
+    Withings::User.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
   end
   
-  #
-  # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and TODO: what do we need
+  # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and 'oauth_token' and 'oauth_token_secret'
   def initialize(params)
     params = params.stringify_keys
     @short_name = params['shortname']
     @first_name = params['firstname']
     @last_name = params['lastname']
     @user_id = params['id']                         || params['user_id']
-    @share = params['ispublic']
     @birthdate = Time.at(params['birthdate']) if params['birthdate']
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
+    @oauth_token = params['oauth_token']
+    @oauth_token_secret = params['oauth_token_secret']
   end
-  
   
   def subscribe_notification(callback_url, description, device = SCALE)
     connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => device)
@@ -73,16 +63,6 @@ class Withings::User
     end
   end
 
-  def share(*devices)
-    @share = devices_bitmask(devices)
-    connection.get_request('/user', :action => :update, :ispublic => @share)
-  end
-
-  # sharing enabled for a device?
-  def share?(device = Withings::SCALE | Withings::BLOOD_PRESSURE_MONITOR)
-    @share & device
-  end
-
   def to_s
     "[User #{short_name} / #{:user_id} / #{share?}]"
   end
@@ -98,25 +78,5 @@ class Withings::User
   def connection
     @connection ||= Withings::Connection.new(self)
   end
-
-
-  #def self.once()
-  #  Withings::Connection.get_request('/once', :action => :get)['once']
-  #end
   
-  #http://wbsapi.withings.net/measure?action=getmeas&
-  # oauth_consumer_key=7e563166232c6821742b4c277350494a455f392b353e5d49712a34762a&
-  #   oauth_nonce=f22d74f2209ddf0c6558a47c02841fb1&
-  #   oauth_signature=yAF9SgZa09SPl3H1Y5aAoXgyauc=&
-  #   oauth_signature_method=HMAC-SHA1&
-  #   oauth_timestamp=1309783586&
-  #   oauth_token=c68567f1760552958d713e92088db9f5c5189754dfe4e92068971f4e25d64&
-  #   oauth_version=1.0&
-  #   userid=1229
-  #   
-  #User: Tobias Miesel
-  #user_id: 666088
-  #oauth_token: 284948c9b4b9cce1cc76bbb77283431d9bbb9b46beddfccb79241cc12
-  #oauth_token_secret: 02f01f0e60182684676644ddbef2638e8e4de909f776340e1b5dd612dcbf
-
 end

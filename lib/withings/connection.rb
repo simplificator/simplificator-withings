@@ -14,69 +14,67 @@ class Withings::Connection
     @user = user
   end
 
-  def self.get_request(path, params)
+  def self.get_request(path, token, secret, params)
+    signature = Connection.sign(base_uri + path, params, token, secret)
+    params.merge!({:oauth_signature => signature})
+    
     response = self.get(path, :query => params)
     verify_response!(response, path, params)
   end
 
-  # merges params with authentication hash
+
   def get_request(path, params)
+    params.merge!({:userid => @user.user_id})
+    signature = Connection.sign(self.class.base_uri + path, params, @user.oauth_token, @user.oauth_token_secret)
+    params.merge!({:oauth_signature => signature})
     
-    oauth_signature_parameters = {
-      :oauth_consumer_key => '460e66920e42d80745001f066f1d62d0d348e20369b87150cb63fbeb04ecc01',
-      :oauth_nonce => oauth_nonce,
-      :oauth_signature_method => oauth_signature_method,
-      :oauth_timestamp => oauth_timestamp,
-      :oauth_version => oauth_version,
-      :userid => @user.user_id
-    }
-    
-    params = params.merge(oauth_signature_parameters)
-    
-    p "signature: #{oauth_signature('GET', self.class.base_uri + path, params)}"
-    params = params.merge({
-      :oauth_signature => oauth_signature('GET', self.class.base_uri + path, params),
-      :oauth_token => '284948c9b4b9cce1cc76bbb77283431d9bbb9b46beddfccb79241cc12',
-    })
-    p params
     response = self.class.get(path, :query => params)
     self.class.verify_response!(response, path, params)
   end
   
-
   protected
-  def oauth_timestamp
+  
+  def self.sign(url, params, token, secret)
+    params.merge!({
+      :oauth_consumer_key => Withings.consumer_key,
+      :oauth_nonce => oauth_nonce,
+      :oauth_signature_method => oauth_signature_method,
+      :oauth_timestamp => oauth_timestamp,
+      :oauth_version => oauth_version,
+      :oauth_token => token
+    })
+    calculate_oauth_signature('GET', url, params, secret)
+  end
+  
+  
+  def self.oauth_timestamp
     Time.now.to_i
   end
   
-  def oauth_version
+  def self.oauth_version
     '1.0'
   end
   
-  def oauth_signature_method
+  def self.oauth_signature_method
     'HMAC-SHA1'
   end
   
-  # A random hex value
-  def oauth_nonce
-    rand(10 ** 30).to_s.rjust(30,'0')
+  def self.oauth_nonce
+    rand(10 ** 30).to_s(16)
   end
   
-  def oauth_signature(method, url, params)
+  def self.calculate_oauth_signature(method, url, params, oauth_token_secret)
     # oauth signing is picky with sorting (based on a digest)
     params = params.to_a.map() do |item| 
       [item.first.to_s, item.last]
     end.sort
     
     param_string = params.map() {|key, value| "#{key}=#{value}"}.join('&')
-    base_string = [method, url, param_string].join('&')
-    base_string = CGI.escape(base_string)
+    base_string = [method, CGI.escape(url), CGI.escape(param_string)].join('&')
     
-    secret = ['8bcc225e05ccc62d6d5be8c32f535c73c9440f7688b4fd0280562ee687149b', '02f01f0e60182684676644ddbef2638e8e4de909f776340e1b5dd612dcbf'].join('&')
-    
+    secret = [Withings.consumer_secret, oauth_token_secret].join('&')
     
     digest = HMAC::SHA1.digest(secret, base_string)
-    
     Base64.encode64(digest).chomp.gsub( /\n/, '' )
   end
   
@@ -91,10 +89,6 @@ class Withings::Connection
   end
 end
 
-
-#development:
-#  key: 460e66920e42d80745001f066f1d62d0d348e20369b87150cb63fbeb04ecc01
-#  secret: 8bcc225e05ccc62d6d5be8c32f535c73c9440f7688b4fd0280562ee687149b
 
 #http://wbsapi.withings.net/measure?action=getmeas&
 #oauth_consumer_key=7e563166232c6821742b4c277350494a455f392b353e5d49712a34762a&

@@ -11,7 +11,7 @@ class Withings::ApiError < StandardError
     293	  => lambda() {|status, path, params| "The callback URL '#{params[:callbackurl]}' is either unknown or invalid"},
     294	  => lambda() {|status, path, params| "Could not delete subscription for '#{params[:callbackurl]}'"},
     304	  => lambda() {|status, path, params| "The comment '#{params[:comment]}' is invalid"},
-    342	  => lambda() {|status, path, params| "Specify public key"},
+    342	  => lambda() {|status, path, params| "Failed to verify signature"},
     343   => lambda() {|status, path, params| "No notification matching the criteria was found: '#{params[:callbackurl]}'"},
     2554	=> lambda() {|status, path, params| "Unknown action '#{params[:action]}' for '#{path}'"},
     2555	=> lambda() {|status, path, params| "An unknown error occurred"},
