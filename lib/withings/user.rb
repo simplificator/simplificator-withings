@@ -4,6 +4,7 @@ class Withings::User
   def self.authenticate(user_id, oauth_token, oauth_token_secret)
     response = Withings::Connection.get_request('/user', oauth_token, oauth_token_secret, :action => :getbyuserid, :userid => user_id)
     user_data = response['users'].detect { |item| item['id'] == user_id }
+    raise Withings::ApiError.new(2555, 'No user found', '') unless user_data
     Withings::User.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
   end
   
