@@ -83,6 +83,11 @@ Require the API implementation
 
 All classes are name-spaced, if your other code allows you can include Withings
   include Withings
+  
+Setup
+  Withings.consumer_secret = '1234'
+  Withings.consumer_key = 'abcd'
+
 
 A user can be authenticated using user id and oauth token/secret
   user = User.authenticate('<YOUR USER ID>', '<YOUR OAUTH TOKEN>', '<YOUR OAUTH TOKEN SECRET>')
