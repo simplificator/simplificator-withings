@@ -56,7 +56,7 @@ class Withings::MeasurementGroup
   end
 
   def to_s
-    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, Blood Pressure: #{self.diastolic_blood_pressure}/#{self.systolic_blood_pressure} @ #{self.heart_pulse}, ID: #{self.group_id} (created at: #{self.taken_at.strftime("%d.%m.%Y")})]"
+    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, Blood Pressure: #{self.diastolic_blood_pressure}/#{self.systolic_blood_pressure} @ #{self.heart_pulse}, ID: #{self.group_id} (taken at: #{self.taken_at.strftime("%d.%m.%Y %H:%M:%S")})]"
   end
 
   def inspect

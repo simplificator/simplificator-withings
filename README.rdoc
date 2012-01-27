@@ -4,7 +4,15 @@ This is a ruby implementation for the Withings API. Description of the API can b
 
 == Versions ==
 
-Note that this release (0.4.0) breaks the API of previous releases:
+
+=== 0.4.5 ===
+E-Mail Address is downcased before hashing it (authentication)
+
+=== 0.4.4 ===
+Various fixes for the support of Blood Pressure Monitor
+
+=== 0.4.0 ===
+Note that this release breaks the API of previous releases:
 
 === User.authenticate ===
 
