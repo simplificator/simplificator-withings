@@ -4,6 +4,11 @@ This is a ruby implementation for the Withings API. Description of the API can b
 
 == Versions ==
 
+=== 0.6.2 ===
+
+Updated Readme and Gemspec
+
+
 === 0.6.0 ===
 
 OAuth implemented. This version is not compatible to previous releases.
