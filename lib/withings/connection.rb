@@ -66,7 +66,7 @@ class Withings::Connection
   def self.calculate_oauth_signature(method, url, params, oauth_token_secret)
     # oauth signing is picky with sorting (based on a digest)
     params = params.to_a.map() do |item| 
-      [item.first.to_s, item.last]
+      [item.first.to_s, CGI.escape(item.last.to_s)]
     end.sort
     
     param_string = params.map() {|key, value| "#{key}=#{value}"}.join('&')

@@ -3,11 +3,13 @@
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api
 
 == Versions ==
+=== 0.6.3 ===
+
+Fixed escaping for parameters.
 
 === 0.6.2 ===
 
 Updated Readme and Gemspec
-
 
 === 0.6.0 ===
 
