@@ -65,7 +65,7 @@ class Withings::User
   end
 
   def to_s
-    "[User #{short_name} / #{:user_id} / #{share?}]"
+    "[User #{short_name} / #{:user_id}]"
   end
   
 
