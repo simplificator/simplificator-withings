@@ -88,17 +88,3 @@ class Withings::Connection
     end
   end
 end
-
-
-#http://wbsapi.withings.net/measure?action=getmeas&
-#oauth_consumer_key=7e563166232c6821742b4c277350494a455f392b353e5d49712a34762a&
-#oauth_nonce=f22d74f2209ddf0c6558a47c02841fb1&
-#oauth_signature=yAF9SgZa09SPl3H1Y5aAoXgyauc=&
-#oauth_token=c68567f1760552958d713e92088db9f5c5189754dfe4e92068971f4e25d64&
-#oauth_version=1.0&
-#userid=1229
-
-#User: Tobias Miesel
-#user_id: 666088
-#oauth_token: 284948c9b4b9cce1cc76bbb77283431d9bbb9b46beddfccb79241cc12
-#oauth_token_secret: 02f01f0e60182684676644ddbef2638e8e4de909f776340e1b5dd612dcbf
