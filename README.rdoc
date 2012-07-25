@@ -3,6 +3,11 @@
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api
 
 == Versions ==
+
+=== 0.6.6 ===
+
+Added list_notifications method to user.
+
 === 0.6.3 ===
 
 Fixed escaping for parameters.
@@ -107,6 +112,9 @@ Specify what devices you are interested
   
   user.describe_notification('http://foo.bar.com')
   user.revoke_notification('http://foo.bar.com')
+
+List notifications is now possible
+  user.list_notifications
 
 And finally you can get measurements, after all this is what it's for
   user.measurement_groups(:per_page => 10, :page => 1, :end_at => Time.now)

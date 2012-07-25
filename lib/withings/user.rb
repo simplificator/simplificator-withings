@@ -35,6 +35,15 @@ class Withings::User
     Withings::NotificationDescription.new(response.merge(:callbackurl => callback_url))
   end
 
+  # List the notifications for a device (defaults to SCALE), pass nil to list all devices.
+  def list_notifications(device = SCALE)
+    options = (device.nil? ? {} : {:appli => device})
+    response = connection.get_request('/notify', options.merge({:action => :list}))
+    response['profiles'].map do |item|
+      Withings::NotificationDescription.new(item)
+    end
+  end
+
 
   # list measurement groups
   # The limit and offset parameters are converted to will_paginate style parameters (:per_page, :page)
