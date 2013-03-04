@@ -83,4 +83,42 @@ class UsersTest < Test::Unit::TestCase
     end
 
   end
+
+  context 'authenticate' do
+    context 'integer userid' do
+      should 'return user' do
+        Withings::Connection.stubs(:get_request).with('/user', anything(), anything(), anything()).returns({
+          'users' => [
+            {
+              'id' => 29,
+              'firstname' => 'John',
+              'lastname' => 'Doe'
+            }
+          ]
+        })
+        user = User.authenticate(29, 'deadbeef', 'cafebabe')
+        assert_equal 29, user.user_id
+      end
+    end
+
+
+    context 'string userid' do
+      should 'return user' do
+        Withings::Connection.stubs(:get_request).with('/user', anything(), anything(), anything()).returns({
+          'users' => [
+            {
+              'id' => 29,
+              'firstname' => 'John',
+              'lastname' => 'Doe'
+            }
+          ]
+        })
+        assert_nothing_raised do
+          user = User.authenticate('29', 'deadbeef', 'cafebabe')
+          assert_equal 29, user.user_id
+        end
+      end
+    end
+
+  end
 end
