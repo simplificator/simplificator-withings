@@ -3,7 +3,7 @@ class Withings::User
 
   def self.authenticate(user_id, oauth_token, oauth_token_secret)
     response = Withings::Connection.get_request('/user', oauth_token, oauth_token_secret, :action => :getbyuserid, :userid => user_id)
-    user_data = response['users'].detect { |item| item['id'] == user_id }
+    user_data = response['users'].detect { |item| item['id'] == user_id.to_i }
     raise Withings::ApiError.new(2555, 'No user found', '') unless user_data
     Withings::User.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
   end
@@ -22,21 +22,21 @@ class Withings::User
     @oauth_token_secret = params['oauth_token_secret']
   end
   
-  def subscribe_notification(callback_url, description, device = SCALE)
+  def subscribe_notification(callback_url, description, device = Withings::SCALE)
     connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => device)
   end
 
-  def revoke_notification(callback_url, device = SCALE)
+  def revoke_notification(callback_url, device = Withings::SCALE)
     connection.get_request('/notify', :action => :revoke, :callbackurl => callback_url, :appli => device)
   end
 
-  def describe_notification(callback_url, device = SCALE)
+  def describe_notification(callback_url, device = Withings::SCALE)
     response = connection.get_request('/notify', :action => :get, :callbackurl => callback_url, :appli => device)
     Withings::NotificationDescription.new(response.merge(:callbackurl => callback_url))
   end
 
-  # List the notifications for a device (defaults to SCALE), pass nil to list all devices.
-  def list_notifications(device = SCALE)
+  # List the notifications for a device (defaults to Withings::SCALE), pass nil to list all devices.
+  def list_notifications(device = Withings::SCALE)
     options = (device.nil? ? {} : {:appli => device})
     response = connection.get_request('/notify', options.merge({:action => :list}))
     response['profiles'].map do |item|
