@@ -2,10 +2,10 @@
 
 Gem::Specification.new do |s|
   s.name = %q{simplificator-withings}
-  s.version = "0.6.6"
+  s.version = "0.6.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["pascalbetz"]
+  s.authors = ["pascalbetz", 'invernizzi']
   s.date = %q{2011-04-18}
   s.description = %q{A withings API implementation in ruby. Created for the evita project at evita.ch}
   s.email = %q{info@simplificator.com}
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/simplificator/simplificator-withings}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.3.8}
   s.summary = %q{API implementation for withings.com}
   s.test_files = [
     "test/helper.rb",
@@ -45,19 +45,15 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_runtime_dependency(%q<httparty>, [">= 0"])
-      s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
-      
     else
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<httparty>, [">= 0"])
-      s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<httparty>, [">= 0"])
-    s.add_dependency(%q<ruby-hmac>, [">= 0"])
   end
 end
 
