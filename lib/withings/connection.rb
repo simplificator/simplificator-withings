@@ -74,7 +74,7 @@ class Withings::Connection
     
     secret = [Withings.consumer_secret, oauth_token_secret].join('&')
     
-    digest = HMAC::SHA1.digest(secret, base_string)
+    digest = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), secret, base_string)
     Base64.encode64(digest).chomp.gsub( /\n/, '' )
   end
   
