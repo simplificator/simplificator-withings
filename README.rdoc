@@ -4,6 +4,11 @@ This is a ruby implementation for the Withings API. Description of the API can b
 
 == Versions ==
 
+=== 0.6.7 ===
+
+* Swap ruby-hmac for openssl
+* Allow string userid in User.authenticate
+
 === 0.6.6 ===
 
 Added list_notifications method to user.
