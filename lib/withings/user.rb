@@ -56,6 +56,11 @@ class Withings::User
   # - :last_udpated_at    (default: empty)
   # - :device             (default: empty)
   # Parameters are described in WBS api
+
+  def get_activities(params = {})
+    connection.get_request('/v2/measure', params.merge(:action => :getactivity))
+  end
+
   def measurement_groups(params = {})
     params = params.stringify_keys
     options = {:limit => 100, :offset => 0}
