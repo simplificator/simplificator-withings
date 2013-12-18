@@ -7,7 +7,7 @@ class Withings::User
     raise Withings::ApiError.new(2555, 'No user found', '') unless user_data
     Withings::User.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
   end
-  
+
   # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and 'oauth_token' and 'oauth_token_secret'
   def initialize(params)
     params = params.stringify_keys
@@ -21,7 +21,7 @@ class Withings::User
     @oauth_token = params['oauth_token']
     @oauth_token_secret = params['oauth_token_secret']
   end
-  
+
   def subscribe_notification(callback_url, description, device = Withings::SCALE)
     connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => device)
   end
@@ -45,6 +45,17 @@ class Withings::User
   end
 
 
+  # List the activity metrics.
+  # Params:
+  # - :date
+  # - :startdateymd
+  # - :enddateymd
+  # Either date OR startdateymd AND enddate need to be supplied.
+  def get_activities(params = {})
+    connection.get_request('/v2/measure', params.merge(:action => :getactivity))
+  end
+
+
   # list measurement groups
   # The limit and offset parameters are converted to will_paginate style parameters (:per_page, :page)
   # - :per_page           (default: 100)
@@ -56,11 +67,6 @@ class Withings::User
   # - :last_udpated_at    (default: empty)
   # - :device             (default: empty)
   # Parameters are described in WBS api
-
-  def get_activities(params = {})
-    connection.get_request('/v2/measure', params.merge(:action => :getactivity))
-  end
-
   def measurement_groups(params = {})
     params = params.stringify_keys
     options = {:limit => 100, :offset => 0}
@@ -81,10 +87,10 @@ class Withings::User
   def to_s
     "[User #{short_name} / #{:user_id}]"
   end
-  
+
 
   protected
-  
+
   def devices_bitmask(*devices)
     devices = [Withings::SCALE, Withings::BLOOD_PRESSURE_MONITOR] if Array(devices).empty?
     devices.inject('|'.to_sym)
@@ -93,5 +99,5 @@ class Withings::User
   def connection
     @connection ||= Withings::Connection.new(self)
   end
-  
+
 end

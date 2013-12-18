@@ -4,6 +4,10 @@ This is a ruby implementation for the Withings API. Description of the API can b
 
 == Versions ==
 
+=== 0.6.9 ===
+
+* Added support for activities (thanks to invernizzi)
+
 === 0.6.8 ===
 
 * updated README (thanks to jmaddi)
@@ -132,6 +136,9 @@ And finally you can get measurements, after all this is what it's for
   user.measurement_groups(:start_at => Time.at(12345), :end_at => Time.at(67890))
   user.measurement_groups(:measurement_type => MeasurementGroup::TYPE_FAT)
   user.measurement_groups(:device => Withings::SCALE)
+
+Since 0.6.9 you can also get activities
+  user.get_activities
 
 
 == Note on keys in hashes
