@@ -25,11 +25,7 @@ class Withings::Connection
 
   def get_request(path, params)
     params.merge!({:userid => @user.user_id})
-    signature = Withings::Connection.sign(self.class.base_uri + path, params, @user.oauth_token, @user.oauth_token_secret)
-    params.merge!({:oauth_signature => signature})
-    
-    response = self.class.get(path, :query => params)
-    self.class.verify_response!(response, path, params)
+    self.class.get_request(path, @user.oauth_token, @user.oauth_token_secret, params)
   end
   
   protected
