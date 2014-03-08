@@ -3,7 +3,7 @@ class Withings::NotificationDescription
   def initialize(params = {})
     params = params.stringify_keys
     @callback_url = params['callbackurl']
-    @description = params['comment']
+    @description = URI::decode(params['comment'])
     @expires_at = Time.at(params['expires'])
   end
 

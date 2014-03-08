@@ -23,7 +23,7 @@ class Withings::User
   end
 
   def subscribe_notification(callback_url, description, device = Withings::SCALE)
-    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => device)
+    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => URI::encode(description), :appli => device)
   end
 
   def revoke_notification(callback_url, device = Withings::SCALE)
