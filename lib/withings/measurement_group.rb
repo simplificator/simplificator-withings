@@ -38,7 +38,6 @@ class Withings::MeasurementGroup
       when TYPE_DIASTOLIC_BLOOD_PRESSURE then @diastolic_blood_pressure = value
       when TYPE_SYSTOLIC_BLOOD_PRESSURE then @systolic_blood_pressure = value
       when TYPE_HEART_PULSE then @heart_pulse = value
-      else raise "Unknown #{measure.inspect}"
       end
     end
   end
