@@ -2,52 +2,52 @@
 
 This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api
 
-== Versions ==
+== Versions
 
-=== 0.6.10 ===
+=== 0.6.10
 
 * Do not raise an exception on unknown types of measurement groups.
 
-=== 0.6.9 ===
+=== 0.6.9
 
 * Added support for activities (thanks to invernizzi)
 
-=== 0.6.8 ===
+=== 0.6.8
 
 * updated README (thanks to jmaddi)
 
-=== 0.6.7 ===
+=== 0.6.7
 
 * Swap ruby-hmac for openssl
 * Allow string userid in User.authenticate
 
-=== 0.6.6 ===
+=== 0.6.6
 
 Added list_notifications method to user.
 
-=== 0.6.3 ===
+=== 0.6.3
 
 Fixed escaping for parameters.
 
-=== 0.6.2 ===
+=== 0.6.2
 
 Updated Readme and Gemspec
 
-=== 0.6.0 ===
+=== 0.6.0
 
 OAuth implemented. This version is not compatible to previous releases.
 Authentication via userid/publickey is not supported anymore.
 
-=== 0.4.5 ===
+=== 0.4.5
 E-Mail Address is downcased before hashing it (authentication)
 
-=== 0.4.4 ===
+=== 0.4.4
 Various fixes for the support of Blood Pressure Monitor
 
-=== 0.4.0 ===
+=== 0.4.0
 Note that this release breaks the API of previous releases:
 
-=== User.authenticate ===
+=== User.authenticate
 
   User.authenticate() has been replaced by User.userlist
 
@@ -56,7 +56,7 @@ so it seems best to leave the decision to the users of the API.
 
 The old method is still there but please update your code. It will be removed in the next release.
 
-=== MeasurementGroup ===
+=== MeasurementGroup
 
   MeasurementGroup#createt_at has been replaced by MeasurementGroup#taken_on
 
