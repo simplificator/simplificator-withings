@@ -58,7 +58,7 @@ The old method is still there but please update your code. It will be removed in
 
 === MeasurementGroup
 
-  MeasurementGroup#createt_at has been replaced by MeasurementGroup#taken_on
+  MeasurementGroup#created_at has been replaced by MeasurementGroup#taken_on
 
 Created at is usually the timestamp at which a record was created. But MeasurementGroup#created_at was the timestamp when you actually took the measurement. You can also take measurements (via the Web UI on withings.com) which are for a past date. The record is created today, but the measurement
 was taken on 2 weeks ago.
