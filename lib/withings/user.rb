@@ -55,6 +55,14 @@ class Withings::User
     connection.get_request('/v2/measure', params.merge(:action => :getactivity))
   end
 
+  # List the sleep metrics
+  # Params:
+  # - :startdate
+  # - :enddate
+  def get_sleeps(params = {})
+    connection.get_request('/v2/sleep', params.merge(:action => :get))
+  end
+
 
   # list measurement groups
   # The limit and offset parameters are converted to will_paginate style parameters (:per_page, :page)
