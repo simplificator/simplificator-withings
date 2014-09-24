@@ -22,8 +22,8 @@ class Withings::User
     @oauth_token_secret = params['oauth_token_secret']
   end
 
-  def subscribe_notification(callback_url, description, device = Withings::SCALE)
-    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => description, :appli => device)
+  def create_notification(callback_url, device = Withings::SCALE)
+    connection.get_request('/notify', :action => :subscribe, :callbackurl => callback_url, :comment => callback_url, :appli => device)
   end
 
   def revoke_notification(callback_url, device = Withings::SCALE)
@@ -36,7 +36,7 @@ class Withings::User
   end
 
   # List the notifications for a device (defaults to Withings::SCALE), pass nil to list all devices.
-  def list_notifications(device = Withings::SCALE)
+  def notifications(device = Withings::SCALE)
     options = (device.nil? ? {} : {:appli => device})
     response = connection.get_request('/notify', options.merge({:action => :list}))
     response['profiles'].map do |item|
