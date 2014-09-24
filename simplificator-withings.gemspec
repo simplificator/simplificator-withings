@@ -1,59 +1,29 @@
 # -*- encoding: utf-8 -*-
 
-Gem::Specification.new do |s|
-  s.name = %q{simplificator-withings}
-  s.version = "0.6.10"
+Gem::Specification.new do |spec|
+  spec.name = %q{simplificator-withings}
+  spec.version = "0.6.10"
+  spec.authors = ["simplificator", "jmaddi", 'invernizzi']
+  spec.date = %q{2011-04-18}
+  spec.description = %q{A withings API implementation in ruby. Created for the evita project at evita.ch}
+  spec.summary = %q{API implementation for withings.com}
+  spec.email = %q{info@simplificator.com}
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["simplificator", "jmaddi", 'invernizzi']
-  s.date = %q{2011-04-18}
-  s.description = %q{A withings API implementation in ruby. Created for the evita project at evita.ch}
-  s.email = %q{info@simplificator.com}
-  s.extra_rdoc_files = [
-    "LICENSE",
-     "README.rdoc"
-  ]
-  s.files = [
-    ".document",
-     "LICENSE",
-     "README.rdoc",
-     "Rakefile",
-     "lib/withings.rb",
-     "lib/withings/base.rb",
-     "lib/withings/connection.rb",
-     "lib/withings/error.rb",
-     "lib/withings/measurement_group.rb",
-     "lib/withings/notification_description.rb",
-     "lib/withings/user.rb",
-     "simplificator-withings.gemspec",
-  ]
-  s.homepage = %q{http://github.com/simplificator/simplificator-withings}
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.8}
-  s.summary = %q{API implementation for withings.com}
-  s.test_files = [
-    "test/helper.rb",
-     "test/users_test.rb",
-  ]
+  spec.homepage = %q{http://github.com/simplificator/simplificator-withings}
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
+  spec.license = "Sea LICENSE"
+  spec.add_development_dependency "bundler", "~> 1.6"
+  spec.add_development_dependency "rake", "~> 10.3"
+  spec.add_development_dependency "minitest", "~> 5.4"
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
-      s.add_development_dependency(%q<mocha>, [">= 0"])
-      s.add_runtime_dependency(%q<httparty>, [">= 0"])
-    else
-      s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<mocha>, [">= 0"])
-      s.add_dependency(%q<httparty>, [">= 0"])
-    end
-  else
-    s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<mocha>, [">= 0"])
-    s.add_dependency(%q<httparty>, [">= 0"])
-  end
+  spec.add_development_dependency "shoulda", "~> 3.5"
+  spec.add_development_dependency "mocha", "~> 1.1"
+
+
+  spec.add_dependency 'httparty', "~> 0.13"
 end
+
 

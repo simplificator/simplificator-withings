@@ -2,7 +2,8 @@ require 'helper'
 
 include Withings
 
-class UsersTest < Test::Unit::TestCase
+class UsersTest < Minitest::Test
+
   context 'measurement_groups' do
     setup do
       @user = User.new(:user_id => 'lala')
@@ -70,7 +71,7 @@ class UsersTest < Test::Unit::TestCase
     should 'assign user_id with alternative key' do
       assert_equal '1234', User.new('user_id' => '1234').user_id
     end
-    
+
     should 'assign gender (to true)' do
       assert_equal :male, User.new('gender' => 0).gender
     end
@@ -113,9 +114,11 @@ class UsersTest < Test::Unit::TestCase
             }
           ]
         })
-        assert_nothing_raised do
+        begin
           user = User.authenticate('29', 'deadbeef', 'cafebabe')
           assert_equal 29, user.user_id
+        rescue
+          fail "should not raise"
         end
       end
     end
