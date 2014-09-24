@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = %q{simplificator-withings}
-  spec.version = "0.6.10"
+  spec.version = "0.7.0"
   spec.authors = ["simplificator", "jmaddi", 'invernizzi']
   spec.date = %q{2011-04-18}
   spec.description = %q{A withings API implementation in ruby. Created for the evita project at evita.ch}
