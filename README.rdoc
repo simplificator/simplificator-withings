@@ -183,4 +183,5 @@ Thanks for these Gems.
 
 == Copyright
 
-Copyright (c) 2012 simplificator. See LICENSE for details.
+Copyright (c) 2012 http://www.simplificator.com. See LICENSE for details.
+
