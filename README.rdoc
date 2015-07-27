@@ -1,6 +1,6 @@
 = simplificator-withings
 
-This is a ruby implementation for the Withings API. Description of the API can be found here: http://www.withings.com/en/api
+This is a ruby implementation for the Withings API. Description of the API can be found here: http://oauth.withings.com/api
 
 == Versions
 
@@ -126,7 +126,7 @@ Setup
 
 
 A user can be authenticated using user id and oauth token/secret
-  user = User.authenticate('<YOUR USER ID>', '<YOUR OAUTH TOKEN>', '<YOUR OAUTH TOKEN SECRET>')
+  user = Withings::User.authenticate('<YOUR USER ID>', '<YOUR OAUTH TOKEN>', '<YOUR OAUTH TOKEN SECRET>')
 
 
 You can handle subscriptions through the API (all devices currently known => Scale + Blood Pressure Monitor)
@@ -184,4 +184,3 @@ Thanks for these Gems.
 == Copyright
 
 Copyright (c) 2012 http://www.simplificator.com. See LICENSE for details.
-
