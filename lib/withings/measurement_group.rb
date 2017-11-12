@@ -84,6 +84,6 @@ class Withings::MeasurementGroup
   # If the method is missing then look at @values Array wether the name is present
   # @param [String] m Name of the called method which is not present itself
   def method_missing(m, *args, &block)
-    @values.dig(m)
+    @values.dig(m.to_s)
   end
 end
