@@ -71,7 +71,7 @@ class Withings::MeasurementGroup
 
   # @return [String]
   def to_s
-    '[' + @values.map{|key, value| "#{key}: #{value}"}.join(', ') + ', ' + "ID: #{self.group_id} (taken at: #{self.taken_at.strftime("%d.%m.%Y %H:%M:%S")})"]
+    '[' + @values.map{|key, value| "#{key}: #{value}"}.join(', ') + ', ' + "ID: #{self.group_id} (taken at: #{self.taken_at.strftime("%d.%m.%Y %H:%M:%S")})]"
   end
 
   # @return [String]
