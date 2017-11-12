@@ -26,7 +26,7 @@ class Withings::MeasurementGroup
   TYPE_PULSE_WAVE_VELOCITY = 91       # ms (?)
 
   attr_reader :group_id, :attribution, :taken_at, :category
-  attr_reader :weight, :size, :fat, :ratio, :fat_free, :diastolic_blood_pressure, :systolic_blood_pressure, :heart_pulse
+  
   def initialize(params)
     params = params.stringify_keys
     @group_id = params['grpid']
