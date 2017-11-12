@@ -33,6 +33,8 @@ class Withings::MeasurementGroup
     @attribution = params['attrib']
     @taken_at = Time.at(params['date'])
     @category = params['category']
+    # init @values
+    @values = Hash.new
     params['measures'].each do |measure|
       value = (measure['value'] * 10 ** measure['unit']).to_f
       case measure['type']
