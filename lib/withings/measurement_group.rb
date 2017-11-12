@@ -15,6 +15,15 @@ class Withings::MeasurementGroup
   TYPE_DIASTOLIC_BLOOD_PRESSURE = 9   # mmHg (min, lower)
   TYPE_SYSTOLIC_BLOOD_PRESSURE = 10   # mmHg (max, upper)
   TYPE_HEART_PULSE = 11               # bpm
+  # new, updated Measure Types
+  TYPE_TEMPERATURE = 12               # °C
+  TYPE_SP02 = 54                      # % (unitless)
+  TYPE_BODY_TEMPERATURE = 71          # °C
+  TYPE_SKIN_TEMPERATURE = 74          # °C
+  TYPE_MUSCLE_MASS = 76               # kg (?)
+  TYPE_HYDRATION = 77                 # ?
+  TYPE_BONE_MASS = 88                 # kg (?)
+  TYPE_PULSE_WAVE_VELOCITY = 91       # ms (?)
 
   BLOOD_PRESSURE_MONITOR_TYPES = [TYPE_DIASTOLIC_BLOOD_PRESSURE, TYPE_SYSTOLIC_BLOOD_PRESSURE, TYPE_HEART_PULSE]
   SCALE_TYPES = [TYPE_WEIGHT, TYPE_SIZE, TYPE_FAT_FREE_MASS_WEIGHT, TYPE_FAT_RATIO, TYPE_FAT_MASS_WEIGHT]
@@ -30,14 +39,23 @@ class Withings::MeasurementGroup
     params['measures'].each do |measure|
       value = (measure['value'] * 10 ** measure['unit']).to_f
       case measure['type']
-      when TYPE_WEIGHT then @weight = value
-      when TYPE_SIZE then @size = value
-      when TYPE_FAT_MASS_WEIGHT then @fat = value
-      when TYPE_FAT_RATIO then @ratio = value
-      when TYPE_FAT_FREE_MASS_WEIGHT then @fat_free = value
-      when TYPE_DIASTOLIC_BLOOD_PRESSURE then @diastolic_blood_pressure = value
-      when TYPE_SYSTOLIC_BLOOD_PRESSURE then @systolic_blood_pressure = value
-      when TYPE_HEART_PULSE then @heart_pulse = value
+      when TYPE_WEIGHT then @values['weight'] = value
+      when TYPE_SIZE then @values['size'] = value
+      when TYPE_FAT_MASS_WEIGHT then @values['fat'] = value
+      when TYPE_FAT_RATIO then @values['ratio'] = value
+      when TYPE_FAT_FREE_MASS_WEIGHT then @values['fat_free'] = value
+      when TYPE_DIASTOLIC_BLOOD_PRESSURE then @values['diastolic_blood_pressure'] = value
+      when TYPE_SYSTOLIC_BLOOD_PRESSURE then @values['systolic_blood_pressure'] = value
+      when TYPE_HEART_PULSE then @values['heart_pulse'] = value
+      # new, updated Measure Types
+      when TYPE_TEMPERATURE then @values['temperature'] = value
+      when TYPE_SP02 then @values['sp02'] = value
+      when TYPE_BODY_TEMPERATURE then @values['body_temperature'] = value
+      when TYPE_SKIN_TEMPERATURE then @values['skin_temperature'] = value
+      when TYPE_MUSCLE_MASS then @values['muscle_mass'] = value
+      when TYPE_HYDRATION then @values['hydration'] = value
+      when TYPE_BONE_MASS then @values['bone_mass'] = value
+      when TYPE_PULSE_WAVE_VELOCITY then @values['pulse_wave_velocity'] = value
       end
     end
   end
@@ -54,14 +72,19 @@ class Withings::MeasurementGroup
     self.category == CATEGORY_TARGET
   end
 
+  # @return [String]
   def to_s
-    "[ Weight: #{self.weight}, Fat: #{self.fat}, Size: #{self.size}, Ratio: #{self.ratio}, Free: #{self.fat_free}, Blood Pressure: #{self.diastolic_blood_pressure}/#{self.systolic_blood_pressure} @ #{self.heart_pulse}, ID: #{self.group_id} (taken at: #{self.taken_at.strftime("%d.%m.%Y %H:%M:%S")})]"
+    '[' + @values.map{|key, value| "#{key}: #{value}"}.join(', ') + ', ' + "ID: #{self.group_id} (taken at: #{self.taken_at.strftime("%d.%m.%Y %H:%M:%S")})"]
   end
 
+  # @return [String]
   def inspect
     self.to_s
   end
-
-
-
+  
+  # If the method is missing then look at @values Array wether the name is present
+  # @param [String] m Name of the called method which is not present itself
+  def method_missing(m, *args, &block)
+    @values.dig(m)
+  end
 end
